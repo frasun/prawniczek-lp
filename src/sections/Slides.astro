@@ -1,0 +1,83 @@
+---
+import Slide from "../components/Slide.astro";
+
+import Image1 from "/public/image-2.png";
+import Image2 from "/public/image-3.png";
+import Image3 from "/public/image-4.png";
+import Image4 from "/public/image-5.png";
+import Image5 from "/public/image-6.png";
+import Image6 from "/public/image-7.png";
+
+const howtos = [
+  {
+    title: "Nawigacja",
+    body: "Wybierz sprawę, którą chcesz załatwić z katalogu dostępnych dokumentów i usług prawnych",
+    image: Image1,
+  },
+  {
+    title: "Informacja",
+    body: "Przedstawimy Ci w zrozumiały sposób obowiązki stron oraz wymagania formalne dotyczące dokumentów",
+    image: Image2,
+  },
+  {
+    title: "Wywiad",
+    body: "Spersonalizujesz dokument odpowiadając na pytania i wybierając dodatkowe zapisy",
+    image: Image3,
+  },
+  {
+    title: "Dokument",
+    body: "Wygenerujemy dla Ciebie dokumenty potrzebne do załatwienia sprawy",
+    image: Image4,
+  },
+  {
+    title: "Dane i podpis",
+    body: "Możesz skorzystać z cyfrowego podpisu oraz uwierzytelnić tożsamość za pomocą Profilu Zaufanego, e-dowodu osobistego lub logując się do swojego banku",
+    image: Image5,
+  },
+  {
+    title: "Przechowywanie",
+    body: "Dokumenty będą dostępne na Twoim koncie. Możesz pobierać, wysyłać i tworzyć podobne w dowolnym momencie",
+    image: Image6,
+  },
+];
+---
+
+<section id="jaktodziala">
+  <h2>Jak to działa?</h2>
+  <div>
+    {
+      howtos.map(({ title, body, image }, index) => (
+        <Slide title={title} body={body} number={index + 1} image={image} />
+      ))
+    }
+  </div>
+  <a href="#">Stwórz pierwszy dokument</a>
+</section>
+
+<style>
+  section {
+    @apply flex items-center flex-col gap-60;
+    @apply w-full;
+    @apply pt-80;
+  }
+
+  h2 {
+    @apply text-orange;
+  }
+
+  section > div {
+    @apply flex flex-col gap-80;
+  }
+
+  section > div :global(figure:nth-child(even)) {
+    @apply lg:flex-row-reverse;
+  }
+
+  section > a {
+    @apply btn btn-default btn-big;
+  }
+
+  section > aside {
+    @apply absolute -z-10;
+  }
+</style>

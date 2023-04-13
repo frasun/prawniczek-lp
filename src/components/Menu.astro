@@ -1,0 +1,198 @@
+---
+import { Image } from "@astrojs/image/components";
+import menuIcon from "../images/icon-menu.svg";
+import closeIcon from "../images/icon-close.svg";
+
+const menuItems = [
+  { id: "", label: "Dokumenty" },
+  { id: "jaktodziala", label: "Jak to działa?" },
+  { id: "dlakogo", label: "Dla kogo?" },
+];
+---
+
+<nav id="menuNav">
+  <div>
+    {menuItems.map((item) => <a href={`#${item.id}`}>{item.label}</a>)}
+  </div>
+  <aside>
+    <a href="#">Załóż konto</a>
+    <a href="#">Zaloguj się</a>
+  </aside>
+</nav>
+<button id="menuToggle">
+  <Image id="menuOpen" src={menuIcon} alt="open menu" width={24} height={24} />
+  <Image
+    id="menuClose"
+    src={closeIcon}
+    alt="close menu"
+    width={24}
+    height={24}
+  />
+</button>
+
+<style>
+  #menuNav {
+    @apply flex lg:items-center justify-end flex-col lg:flex-row;
+    @apply gap-40;
+    @apply basis-full shrink-0 lg:basis-auto;
+    @apply order-3 lg:order-2;
+    @apply absolute lg:relative;
+    @apply left-0 right-0 top-0;
+    @apply bg-white lg:bg-transparent;
+    @apply px-20 pb-20 py-[80px] lg:p-0;
+    @apply -z-10 lg:z-0;
+    @apply -translate-y-full lg:translate-y-0;
+  }
+
+  #menuNav > div {
+    @apply flex flex-wrap flex-col lg:flex-row gap-20;
+  }
+
+  #menuNav > div > a {
+    @apply lg:text-sm;
+  }
+
+  #menuNav > aside {
+    @apply flex gap-15;
+  }
+
+  #menuNav > aside > a {
+    @apply btn btn-default;
+  }
+
+  #menuToggle {
+    @apply btn btn-alt;
+    @apply order-2 lg:order-3;
+    @apply lg:hidden;
+    @apply relative;
+  }
+
+  #menuToggle[data-open="true"] #menuOpen,
+  #menuToggle #menuClose,
+  #menuToggle[data-open="false"] #menuClose {
+    @apply hidden;
+  }
+
+  #menuToggle #menuOpen,
+  #menuToggle[data-open="true"] #menuClose {
+    @apply inline-block;
+  }
+</style>
+
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const MENU_BREAKDOWN = 1024;
+    const BACKDROP_ID = "backdrop";
+    const BACKDROP_CLASS =
+      "fixed left-0 top-0 right-0 bottom-0 bg-dark55 opacity-0 cursor-n-resize";
+    const TRANSITION_TRANSFORM = "transition-transform";
+    const TRANSITION_OPACITY = "transition-opacity";
+    const OPACITY_100 = "opacity-100";
+
+    const menuToggle = document.getElementById("menuToggle");
+    const menuNav = document.getElementById("menuNav");
+    const links = document.querySelectorAll('a[href^="#"]');
+
+    let _isMobile = () => window.innerWidth < MENU_BREAKDOWN;
+    let _menuOpen = false;
+
+    ///
+
+    function toggleMenu(isOpen, transition = true) {
+      const translate = isOpen && _isMobile() ? "-100%" : "0";
+
+      transition
+        ? menuNav.classList.add(TRANSITION_TRANSFORM)
+        : menuNav.classList.remove(TRANSITION_TRANSFORM);
+
+      menuNav.style.setProperty("--tw-translate-y", translate);
+      menuToggle.setAttribute("data-open", Boolean(!isOpen).toString());
+
+      menuNav.addEventListener("transitionend", () => {
+        menuNav.classList.remove(TRANSITION_TRANSFORM);
+      });
+
+      isOpen ? removeBackdrop(transition) : addBackdrop();
+
+      _menuOpen = !isOpen;
+    }
+
+    function addBackdrop() {
+      let backdrop = document.createElement("div");
+      backdrop.id = BACKDROP_ID;
+      backdrop.className = BACKDROP_CLASS;
+
+      document.body.appendChild(backdrop);
+
+      window.requestAnimationFrame(() => {
+        const backdropEl = document.getElementById(BACKDROP_ID);
+
+        if (backdropEl) {
+          backdropEl.classList.add(TRANSITION_OPACITY);
+          backdropEl.classList.add(OPACITY_100);
+
+          backdropEl.addEventListener("click", () => {
+            toggleMenu(true);
+          });
+        }
+      });
+    }
+
+    function removeBackdrop(transition) {
+      const backdropEl = document.getElementById(BACKDROP_ID);
+
+      if (backdropEl) {
+        if (transition) {
+          backdropEl.classList.add(TRANSITION_OPACITY);
+          backdropEl.classList.remove(OPACITY_100);
+
+          backdropEl.addEventListener("transitionend", () => {
+            backdropEl.remove();
+          });
+        } else {
+          backdropEl.remove();
+        }
+      }
+    }
+
+    function scrollToElement(elementId = null, offset = 0) {
+      const element = document.getElementById(elementId);
+      const cords = element ? element.getBoundingClientRect() : null;
+
+      if (cords) {
+        window.scrollTo({
+          top: window.scrollY + cords.top - offset,
+          behavior: "smooth",
+        });
+      }
+    }
+
+    ///
+
+    menuToggle.addEventListener("click", () => toggleMenu(_menuOpen));
+
+    window.addEventListener("resize", () => {
+      window.requestAnimationFrame(() => {
+        toggleMenu(true, false);
+      });
+    });
+
+    if (Array.from(links).length) {
+      for (let link of Array.from(links)) {
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
+
+          const elId = event.target.getAttribute("href").replace("#", "");
+
+          if (elId.length) {
+            scrollToElement(elId);
+
+            if (_menuOpen && _isMobile()) {
+              toggleMenu(true);
+            }
+          }
+        });
+      }
+    }
+  });
+</script>

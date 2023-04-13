@@ -1,0 +1,55 @@
+---
+import { Image } from "@astrojs/image/components";
+import Fig from "../../public/image-1.png";
+import searchIcon from "../images/icon-search.svg";
+---
+
+<section>
+  <h1>Stwórz dopasowane dokumenty prawne bez pomocy prawnika</h1>
+  <form>
+    <input
+      type="search"
+      placeholder="Wyszukaj dokument lub sprawę np. umowa najmu, testament"
+      spellcheck="false"
+    />
+    <button>Szukaj</button>
+    <Image src={searchIcon} alt="search" width={24} height={24} />
+  </form>
+  <Image src={Fig} alt="Prawniczek" width={153} height={120} />
+</section>
+
+<style>
+  section {
+    @apply flex items-center justify-center flex-col gap-20;
+  }
+
+  section > h1 {
+    @apply text-center;
+    @apply max-w-[600px];
+  }
+
+  form {
+    @apply w-full;
+    @apply flex flex-wrap gap-15 items-center justify-center;
+    @apply relative;
+  }
+
+  button {
+    @apply btn btn-default btn-big;
+  }
+
+  input[type="search"] {
+    @apply flex-grow;
+    @apply pl-60;
+    @apply text-lg leading-8;
+    @apply py-10;
+  }
+
+  form > img {
+    @apply absolute left-20 top-0 translate-y-1/2 mt-[4px];
+  }
+
+  section > img {
+    @apply mt-10;
+  }
+</style>
