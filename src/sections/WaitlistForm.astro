@@ -1,0 +1,196 @@
+---
+import { Image } from "@astrojs/image/components";
+import Image8 from "/public/image-8.png";
+---
+
+<section>
+  <form
+    id="waitlistForm"
+    spellcheck="false"
+    method="POST"
+    action="https://prawniczek.pl/mailer.php"
+  >
+    <header>
+      <h2>Już niedługo startujemy!</h2>
+      <p>
+        <strong>Dołącz do listy oczekujących</strong> - poinformujemy Cię kiedy tylko
+        platforma będzie dostępna.
+      </p>
+    </header>
+    <fieldset>
+      <div>
+        <label for="name">Imię <span>*</span></label>
+        <input id="name" type="text" required name="name" placeholder="Imię" />
+      </div>
+      <div>
+        <label for="email">Adres e-mail <span>*</span></label>
+        <input
+          id="email"
+          type="email"
+          required
+          name="email"
+          placeholder="Adres e-mail"
+        />
+      </div>
+      <div>
+        <label for="group">Kim jesteś?</label>
+        <select id="group" name="group">
+          <option>Osoba indywidualna</option>
+          <option>Freelancer</option>
+          <option>Firma</option>
+          <option>Prawnik</option>
+          <option>Notariusz</option>
+        </select>
+      </div>
+    </fieldset>
+    <footer>
+      <p>
+        <small>
+          Wyrażam zgodę na przetwarzanie moich danych na potrzeby kontaktu oraz
+          udziału w testach aplikacji przez Tomasz Ciesielski, NIP 912-123-23-32
+        </small>
+      </p>
+      <button type="submit">Zapisz się</button>
+    </footer>
+    <aside id="response" class="opacity-0 -z-10"></aside>
+  </form>
+  <figure>
+    <Image src={Image8} alt="Lista oczekujących" height={358} width={154} />
+  </figure>
+</section>
+
+<style>
+  section {
+    @apply flex flex-col md:flex-row;
+    @apply w-full;
+  }
+
+  figure {
+    @apply bg-gray p-40;
+    @apply flex items-center justify-center;
+    @apply shrink-0;
+    @apply order-1 md:order-2;
+  }
+
+  figure img {
+    @apply max-h-[120px] md:max-h-[358px] w-auto;
+  }
+
+  label span {
+    @apply text-orangeDark;
+  }
+
+  button[type="submit"] {
+    @apply btn btn-default btn-big;
+    @apply mt-10;
+  }
+
+  fieldset {
+    @apply flex flex-col gap-20 mb-10;
+    @apply w-full;
+  }
+
+  fieldset > * {
+    @apply flex flex-col;
+    @apply grow-0 shrink-0;
+  }
+
+  /* fieldset > *:last-child {
+    @apply col-span-full;
+  } */
+
+  input,
+  select {
+    @apply w-full;
+  }
+
+  aside p {
+    @apply text-dark90;
+  }
+
+  aside > div {
+    @apply flex gap-20 items-center;
+  }
+
+  form,
+  header,
+  footer,
+  aside {
+    @apply flex flex-col gap-20 justify-start;
+  }
+
+  form {
+    @apply p-30 md:p-40;
+    @apply order-2 md:order-1;
+    @apply items-center justify-center;
+    @apply flex-grow;
+    @apply relative;
+  }
+
+  footer {
+    @apply items-start;
+  }
+
+  footer p {
+    @apply leading-none;
+  }
+
+  aside {
+    @apply py-20;
+  }
+
+  #response {
+    @apply flex items-center justify-center gap-20 flex-col;
+    @apply p-30 md:p-40;
+    @apply absolute top-0 left-0 right-0 bottom-0;
+    @apply overflow-auto;
+    @apply bg-white;
+    @apply transition-opacity;
+  }
+</style>
+
+<script>
+  const waitlistForm = document.querySelector("#waitlistForm");
+  const responseField = document.querySelector("#response");
+  const OPACITY_0 = "opacity-0";
+  const Z_10 = "-z-10";
+  const ERROR = "Coś poszło nie tak, spróbuj ponownie za chwilę";
+
+  function displayResponse(msg) {
+    responseField.innerHTML = `
+      <h4 class="break-words">${msg}</h4>
+      <footer>
+        <button id="modalBack" class="btn btn-alt">Powrót</button>
+      </footer>
+    `;
+
+    document.getElementById("modalBack").addEventListener("click", (event) => {
+      event.preventDefault();
+
+      responseField.classList.add(Z_10);
+      responseField.classList.add(OPACITY_0);
+    });
+  }
+
+  waitlistForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(waitlistForm as HTMLFormElement);
+    const url = waitlistForm.getAttribute("action");
+
+    responseField.innerHTML = "";
+    responseField.classList.remove(Z_10);
+    responseField.classList.remove(OPACITY_0);
+
+    try {
+      fetch(url, {
+        method: "POST",
+        body: formData,
+      })
+        .then((resp) => resp.text())
+        .then((responseText) => displayResponse(responseText));
+    } catch (error) {
+      displayResponse(ERROR);
+    }
+  });
+</script>

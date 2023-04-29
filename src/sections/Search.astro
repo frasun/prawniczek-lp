@@ -6,7 +6,7 @@ import searchIcon from "../images/icon-search.svg";
 
 <section>
   <h1>Stwórz precyzyjne dokumenty prawne z pomocą wirtualnego prawnika</h1>
-  <form>
+  <form id="search">
     <input
       type="search"
       placeholder="Wyszukaj dokument lub sprawę np. umowa najmu, testament"
@@ -53,3 +53,11 @@ import searchIcon from "../images/icon-search.svg";
     @apply mt-10;
   }
 </style>
+<script>
+  const searchForm = document.getElementById("search");
+
+  searchForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    document.body.dispatchEvent(new CustomEvent("showModal"));
+  });
+</script>

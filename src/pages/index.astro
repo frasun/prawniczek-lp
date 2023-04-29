@@ -8,6 +8,8 @@ import Customers from "../sections/Customers.astro";
 import Alternatives from "../sections/Alternatives.astro";
 import CTA from "../sections/CTA.astro";
 import Footer from "../sections/Footer.astro";
+import Modal from "../components/Modal.astro";
+import WaitlistForm from "../sections/WaitlistForm.astro";
 ---
 
 <Layout title="Prawniczek">
@@ -23,6 +25,9 @@ import Footer from "../sections/Footer.astro";
   </main>
   <CTA />
   <Footer />
+  <Modal>
+    <WaitlistForm />
+  </Modal>
 </Layout>
 
 <style>
