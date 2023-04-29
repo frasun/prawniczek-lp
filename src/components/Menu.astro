@@ -86,7 +86,8 @@ const menuItems = [
 </style>
 
 <script>
-  import * as utils from "../js/utils";
+  import * as utils from "../utils/backdrop";
+  import { scrollToElement } from "../utils/scroll";
 
   const MENU_BREAKDOWN = 1024;
   const TRANSITION_TRANSFORM = "transition-transform";
@@ -131,7 +132,7 @@ const menuItems = [
 
   function handleHashLink(elId) {
     if (elId.length) {
-      utils.scrollToElement(elId);
+      scrollToElement(elId);
     } else {
       document.body.dispatchEvent(new CustomEvent("showModal"));
     }

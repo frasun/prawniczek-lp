@@ -1,15 +1,16 @@
 const BACKDROP_ID = "backdrop";
 const BACKDROP_CLASS =
-  "fixed left-0 top-0 right-0 bottom-0 bg-dark55 opacity-0 cursor-n-resize z-50";
+  "fixed left-0 top-0 right-0 bottom-0 bg-dark55 opacity-0 cursor-n-resize";
 const TRANSITION_OPACITY = "transition-opacity";
 const OPACITY_100 = "opacity-100";
+const Z_INDEX = "z-50";
 
 export function addBackdrop(onClickCallback?, backdropClass?) {
   let backdrop = document.createElement("div");
 
   backdrop.id = BACKDROP_ID;
-  backdrop.className = `${BACKDROP_CLASS}${
-    backdropClass ? ` ${backdropClass}` : ``
+  backdrop.className = `${BACKDROP_CLASS} ${
+    backdropClass ? backdropClass : Z_INDEX
   }`;
 
   document.body.appendChild(backdrop);
@@ -43,17 +44,5 @@ export function removeBackdrop(transition = true) {
     } else {
       backdropEl.remove();
     }
-  }
-}
-
-export function scrollToElement(elementId = null, offset = 0) {
-  const element = document.getElementById(elementId);
-  const cords = element ? element.getBoundingClientRect() : null;
-
-  if (cords) {
-    window.scrollTo({
-      top: window.scrollY + cords.top - offset,
-      behavior: "smooth",
-    });
   }
 }
