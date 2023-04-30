@@ -1,6 +1,5 @@
 ---
-import { Image } from "@astrojs/image/components";
-import Image8 from "/public/image-8.png";
+import { Picture } from "@astrojs/image/components";
 ---
 
 <section>
@@ -55,7 +54,14 @@ import Image8 from "/public/image-8.png";
     <aside id="response" class="opacity-0 -z-10"></aside>
   </form>
   <figure>
-    <Image src={Image8} alt="Lista oczekujących" height={358} width={154} />
+    <Picture
+      src="/image-8.png"
+      alt="Lista oczekujących"
+      widths={[154, 308]}
+      aspectRatio={0.43}
+      format="avif"
+      sizes="154px"
+    />
   </figure>
 </section>
 

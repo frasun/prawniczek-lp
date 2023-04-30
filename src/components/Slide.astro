@@ -1,14 +1,26 @@
 ---
-import { Image } from "@astrojs/image/components";
+import { Picture } from "@astrojs/image/components";
 
 export interface Props {
   title: string;
   number: number;
   body: string;
-  image: string;
+  image: SlideImage;
 }
 
-const { title, number, body, image } = Astro.props;
+type SlideImage = {
+  src: string;
+  widths: number[];
+  ar: number;
+  sizes: string;
+};
+
+const {
+  title,
+  number,
+  body,
+  image: { src, widths, ar, sizes },
+} = Astro.props;
 ---
 
 <figure>
@@ -17,7 +29,14 @@ const { title, number, body, image } = Astro.props;
     <h3>{title}</h3>
     <p>{body}</p>
   </figcaption>
-  <Image src={image} alt={title} height={450} />
+  <Picture
+    src={src}
+    widths={widths}
+    aspectRatio={ar}
+    format="avif"
+    sizes={sizes}
+    alt={title}
+  />
 </figure>
 
 <style>
