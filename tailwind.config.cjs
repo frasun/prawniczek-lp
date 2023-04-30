@@ -44,8 +44,8 @@ module.exports = {
 			lg: ['1.0625rem', { lineHeight: '1.5rem' }], //17
 			xl: ['1.125rem', { lineHeight: '1.5rem' }], //18
 			'h3': ['1.3125rem', { lineHeight: '1.35' }], //21
-			'2xl': ['1.5rem', { lineHeight: '1.3' }], //24
-			'3xl': ['1.75rem'],
+			'2xl': ['1.63rem', { lineHeight: '1.3' }], //24
+			'3xl': ['1.88rem'],
 			'4xl': ['2.25rem', { lineHeight: '2.5rem' }],
 			'5xl': ['3rem', { lineHeight: '1' }],
 			'6xl': ['3.75rem', { lineHeight: '1' }],
