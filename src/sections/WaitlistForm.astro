@@ -162,9 +162,9 @@ import { Picture } from "@astrojs/image/components";
   const Z_10 = "-z-10";
   const ERROR = "Coś poszło nie tak, spróbuj ponownie za chwilę";
 
-  function displayResponse(msg) {
+  function displayResponse({ message, status }) {
     responseField.innerHTML = `
-      <h4 class="break-words">${msg}</h4>
+      <h4 class="break-words">${message}</h4>
       <footer>
         <button id="modalBack" class="btn btn-alt">Powrót</button>
       </footer>
@@ -172,6 +172,10 @@ import { Picture } from "@astrojs/image/components";
 
     document.getElementById("modalBack").addEventListener("click", (event) => {
       event.preventDefault();
+
+      if (status) {
+        (waitlistForm as HTMLFormElement).reset();
+      }
 
       responseField.classList.add(Z_10);
       responseField.classList.add(OPACITY_0);
@@ -193,10 +197,10 @@ import { Picture } from "@astrojs/image/components";
         method: "POST",
         body: formData,
       })
-        .then((resp) => resp.text())
+        .then((resp) => resp.json())
         .then((responseText) => displayResponse(responseText));
     } catch (error) {
-      displayResponse(ERROR);
+      displayResponse({ message: ERROR, status: false });
     }
   });
 </script>
