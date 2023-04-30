@@ -180,6 +180,14 @@ import { Picture } from "@astrojs/image/components";
       responseField.classList.add(Z_10);
       responseField.classList.add(OPACITY_0);
     });
+
+    if (import.meta.env.PROD) {
+      if (status) {
+        (window as any).plausible("Signup", {
+          props: { customer_group: document.querySelector("#group").value },
+        });
+      }
+    }
   }
 
   waitlistForm.addEventListener("submit", (event) => {
@@ -201,6 +209,10 @@ import { Picture } from "@astrojs/image/components";
         .then((responseText) => displayResponse(responseText));
     } catch (error) {
       displayResponse({ message: ERROR, status: false });
+
+      if (import.meta.env.PROD) {
+        (window as any).plausible("Failed signup");
+      }
     }
   });
 </script>

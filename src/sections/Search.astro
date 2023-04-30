@@ -60,9 +60,17 @@ import searchIcon from "../images/icon-search.svg";
 </style>
 <script>
   const searchForm = document.getElementById("search");
+  const searchInput = searchForm.querySelector("input");
 
   searchForm.addEventListener("submit", (event) => {
     event.preventDefault();
+
     document.body.dispatchEvent(new CustomEvent("showModal"));
+
+    if (import.meta.env.PROD) {
+      (window as any).plausible("Search", {
+        props: { query: searchInput.value },
+      });
+    }
   });
 </script>

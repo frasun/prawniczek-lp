@@ -27,7 +27,7 @@ const categories = [
 
 <section>
   <h4>lub przeglądaj w kategoriach</h4>
-  <div>
+  <div id="categories">
     {
       categories.map(({ name, icon }) => (
         <CategoryBlock title={name} href="#" icon={icon} />
@@ -59,3 +59,16 @@ const categories = [
     @apply text-dark55;
   }
 </style>
+<script>
+  if (import.meta.env.PROD) {
+    const categories = document.querySelectorAll("#categories a");
+
+    for (let category of Array.from(categories)) {
+      category.addEventListener("click", () => {
+        (window as any).plausible("Browse category", {
+          props: { category: category.getAttribute("title") },
+        });
+      });
+    }
+  }
+</script>

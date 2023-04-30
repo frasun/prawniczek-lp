@@ -55,7 +55,9 @@ const customers = [
             ))}
           </ul>
           <footer>
-            <a href="#">Dowiedz się więcej</a>
+            <a href="#" data-group={type}>
+              Dowiedz się więcej
+            </a>
           </footer>
         </div>
       ))
@@ -98,3 +100,16 @@ const customers = [
     @apply btn btn-alt;
   }
 </style>
+<script>
+  if (import.meta.env.PROD) {
+    const readMores = document.querySelectorAll("#dlakogo footer a");
+
+    for (let readMore of readMores) {
+      readMore.addEventListener("click", () => {
+        (window as any).plausible("Read more", {
+          props: { customer_group: readMore.getAttribute("data-group") },
+        });
+      });
+    }
+  }
+</script>

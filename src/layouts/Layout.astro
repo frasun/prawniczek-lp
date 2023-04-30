@@ -61,11 +61,18 @@ const KEYWORDS = "umowa, dokument prawny, generuj umowę, generuj dokument";
     <slot />
     {
       import.meta.env.PROD && (
-        <script
-          defer
-          data-domain="prawniczek.pl"
-          src="https://plausible.io/js/script.js"
-        />
+        <>
+          <script
+            defer
+            data-domain="prawniczek.pl"
+            src="https://plausible.io/js/script.js"
+          />
+          <script>
+            (window as any).plausible = (window as any).plausible || function(){" "}
+            {((window as any).plausible.q =
+              (window as any).plausible.q || []).push(arguments)}
+          </script>
+        </>
       )
     }
   </body>
