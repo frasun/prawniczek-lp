@@ -183,7 +183,9 @@ import { Picture } from "@astrojs/image/components";
 
     if (import.meta.env.PROD) {
       if (status) {
-        (window as any).plausible("Signup", {
+        // @ts-ignore
+        window.plausible("Signup", {
+          // @ts-ignore
           props: { customer_group: document.querySelector("#group").value },
         });
       }
@@ -211,7 +213,8 @@ import { Picture } from "@astrojs/image/components";
       displayResponse({ message: ERROR, status: false });
 
       if (import.meta.env.PROD) {
-        (window as any).plausible("Failed signup");
+        // @ts-ignore
+        window.plausible("Failed signup");
       }
     }
   });

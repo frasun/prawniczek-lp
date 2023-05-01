@@ -106,7 +106,8 @@ const customers = [
 
     for (let readMore of readMores) {
       readMore.addEventListener("click", () => {
-        (window as any).plausible("Read more", {
+        // @ts-ignore
+        window.plausible("Read more", {
           props: { customer_group: readMore.getAttribute("data-group") },
         });
       });

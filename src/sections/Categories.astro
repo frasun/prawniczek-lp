@@ -65,7 +65,8 @@ const categories = [
 
     for (let category of Array.from(categories)) {
       category.addEventListener("click", () => {
-        (window as any).plausible("Browse category", {
+        // @ts-ignore
+        window.plausible("Browse category", {
           props: { category: category.getAttribute("title") },
         });
       });
