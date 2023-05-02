@@ -11,7 +11,8 @@ export interface Props {
 type SlideImage = {
   src: string;
   widths: number[];
-  ar: number;
+  width: number;
+  height: number;
   sizes: string;
 };
 
@@ -19,7 +20,7 @@ const {
   title,
   number,
   body,
-  image: { src, widths, ar, sizes },
+  image: { src, widths, width, height, sizes },
 } = Astro.props;
 ---
 
@@ -32,10 +33,12 @@ const {
   <Picture
     src={src}
     widths={widths}
-    aspectRatio={ar}
+    aspectRatio={width / height}
     format="avif"
     sizes={sizes}
     alt={title}
+    width={width}
+    height={height}
   />
 </figure>
 
