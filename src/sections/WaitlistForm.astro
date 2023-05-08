@@ -43,12 +43,16 @@ import { Picture } from "@astrojs/image/components";
       </div>
     </fieldset>
     <footer>
-      <p>
-        <small>
-          Wyrażam zgodę na przetwarzanie moich danych na potrzeby kontaktu oraz
-          udziału w testach aplikacji przez Tomasz Ciesielski, NIP 912-123-23-32
-        </small>
-      </p>
+      <div>
+        <input id="terms" type="checkbox" name="terms" required />
+        <label for="terms">
+          <small>
+            Wyrażam zgodę na przetwarzanie moich danych na potrzeby kontaktu
+            oraz udziału w testach aplikacji przez Tomasz Ciesielski, NIP
+            912-123-23-32 <span>*</span>
+          </small>
+        </label>
+      </div>
       <button type="submit">Zapisz się</button>
     </footer>
     <aside id="response" class="opacity-0 -z-10"></aside>
@@ -128,7 +132,7 @@ import { Picture } from "@astrojs/image/components";
   }
 
   form {
-    @apply p-30 md:p-40;
+    @apply p-30 xxl:p-40;
     @apply order-2 md:order-1;
     @apply items-center justify-center;
     @apply flex-grow;
@@ -139,8 +143,12 @@ import { Picture } from "@astrojs/image/components";
     @apply items-start;
   }
 
-  footer p {
-    @apply leading-none;
+  footer div {
+    @apply flex gap-15 leading-none;
+  }
+
+  footer input {
+    @apply mt-[2px];
   }
 
   aside {
@@ -199,6 +207,8 @@ import { Picture } from "@astrojs/image/components";
 
     const formData = new FormData(waitlistForm as HTMLFormElement);
     const url = waitlistForm.getAttribute("action");
+
+    console.log({ formData });
 
     responseField.innerHTML = "";
     responseField.classList.remove(Z_10);
