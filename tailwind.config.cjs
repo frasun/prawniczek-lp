@@ -73,7 +73,8 @@ module.exports = {
 		container: theme => ({
 			center: true,
 			padding: {
-				DEFAULT: theme('spacing.20')
+				DEFAULT: theme('spacing.20'),
+				lg: theme('spacing.30')
 			}
 		}),
 		screens: {
