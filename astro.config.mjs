@@ -10,5 +10,6 @@ export default defineConfig({
   integrations: [tailwind(), image(), critters(), compress({
     img: false,
     svg: false
-  }),]
+  }),],
+  site: 'https://prawniczek.pl'
 });
